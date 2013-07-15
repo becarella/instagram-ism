@@ -57,7 +57,7 @@ class InstagramMedia < Media
       max = MediaSetting.find_or_create_by_source_and_key('Instagram', "#{tag}_max_tag_id")
       Rails.logger.info "[populate_from_tag][##{tag}] IMPORT RANGE BEFORE: #{min.value.inspect} - #{max.value.inspect}"
       
-      10.times do |count|
+      (options[:pages].to_i || 10).times do |count|
         data = client.tag_recent_media(tag, args)
           Rails.logger.info "[populate_from_tag][##{tag}][#{count}] #{args.inspect} RX count: #{data.count}"
         
