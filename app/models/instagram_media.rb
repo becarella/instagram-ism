@@ -20,12 +20,18 @@
 class InstagramMedia < Media
   class << self
     
+    def banned_tags ban_filename
+      @banned_tags ||= File.read(ban_filename).split(/$/).map{|bt| bt.gsub(/[#\s]/, '').strip }
+    end
+    
+    
     # Get tagged media in reverse chronological order
     # http://instagram.com/developer/endpoints/tags/#get_tags_media_recent
     # Options:
     #   direction: 
     #     before - Return media after/newer than the saved max_id
     #     after -  Return media before/older than the saved min_id
+    #   ban_filename -- name of file with banned tags
     def populate_from_tag tag, options={}
       tag = tag.gsub(/[#\s]/, '')
       Rails.logger.info "[populate_from_tag][##{tag}][#{options[:direction]}] ==========================="
@@ -62,7 +68,7 @@ class InstagramMedia < Media
           Rails.logger.info "[populate_from_tag][##{tag}][#{count}] #{args.inspect} RX count: #{data.count}"
         
         data.each do |d|
-          photo = create_from_instagram_response d
+          photo = create_from_instagram_response d, options
         end
 
         if import_min.nil? || import_min.to_i > data.pagination['next_max_tag_id'].to_i
@@ -108,7 +114,12 @@ class InstagramMedia < Media
     end
   
   
-    def create_from_instagram_response data
+    def create_from_instagram_response data, options
+      if options[:ban_filename]
+        banned_list = banned_tags(options[:ban_filename])
+        return if (data.tags & (banned_list)).length > 1
+      end
+      
       if data.location
         location = Location.find_or_create_by_latitude_and_longitude(
           :latitude => data.location['latitude'], 
