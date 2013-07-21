@@ -24,11 +24,11 @@ if defined?(ActiveAdmin)
 
     controller do
       with_role :admin
-
+      
       def update
-        params[:media] ||= {}
-        params[:media].merge!(params.delete(:instagram_media)) if params[:instagram_media]
-        super update
+        @media = Media.find(params[:id])
+        @media.tag_list = params[:media][:tag_list]
+        @media.save
       end
     end
   end

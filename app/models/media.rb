@@ -29,9 +29,9 @@ class Media < ActiveRecord::Base
   
   attr_accessible :tag_list
   
-  before_create :update_tags
+  before_create :init_tag_list
   
-  def update_tags
+  def init_tag_list
     self.tag_list = self.original_tag_list
   end
  
