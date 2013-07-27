@@ -5,7 +5,7 @@ if defined?(ActiveAdmin)
     filter :tag_list_contains, :as => :string
     filter :type, :as => :check_boxes, :collection => proc { Media.select("type").group("type").all.collect(&:type) }
 
-    # config.batch_actions = false
+    config.batch_actions = false
 
     actions :index, :show, :update, :destroy
 
@@ -14,9 +14,7 @@ if defined?(ActiveAdmin)
     index :as => :grid, :columns => 3 do |media|
       div :for => media do
         div :class => 'item' do 
-          div '*', :class => 'feature featureMedia <%= !media.featured_at.nil? ? "featured" : "" %>'
-          div '&times;'.html_safe,  :class => 'delete deleteMedia' 
-          div link_to(image_tag("#{media.content_url}", :width => 200), feature_admin_medium_path(:id => media), :target => '_blank'), :class => 'image'
+          div link_to(image_tag("#{media.content_url}", :width => 200), admin_medium_path(:id => media), :target => '_blank'), :class => 'image'
         end
       end
     end
