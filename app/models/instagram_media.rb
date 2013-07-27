@@ -65,7 +65,7 @@ class InstagramMedia < Media
       
       (options[:pages].to_i || 10).times do |count|
         data = client.tag_recent_media(tag, args)
-          Rails.logger.info "[populate_from_tag][##{tag}][#{count}] #{args.inspect} RX count: #{data.count}"
+        Rails.logger.info "[populate_from_tag][##{tag}][#{count}] #{args.inspect} RX count: #{data.count}"
         
         data.each do |d|
           photo = create_from_instagram_response d, options
@@ -117,7 +117,7 @@ class InstagramMedia < Media
     def create_from_instagram_response data, options
       if options[:ban_filename]
         banned_list = banned_tags(options[:ban_filename])
-        return if (data.tags & (banned_list)).length > 1
+        return if (data.tags & (banned_list)).length > 0
       end
       
       if data.location
