@@ -26,7 +26,8 @@ if defined?(ActiveAdmin)
     member_action :feature, :method => :put do
       @media = Media.find(params[:id])
       if !params[:featured].blank?
-        @media.featured_at = params[:featured] ? Time.now : nil
+        @media.featured_at = params[:featured] == 'true' ? Time.now : nil
+        @media.save
       end
       respond_to do |format|
         format.html { redirect_to admin_medium_path(@media) }
@@ -39,8 +40,14 @@ if defined?(ActiveAdmin)
       
       def update
         @media = Media.find(params[:id])
+        if params[:media][:featured]
+          @media.featured_at = Time.now
+        else
+          @media.featured_at = nil
+        end
         @media.tag_list = params[:media][:tag_list]
         @media.save
+        super
       end
     end
   end
