@@ -7,6 +7,7 @@
     <div style='float: left; width: 340px;'>
       <label style='font-weight: bold; color: #5e6469;'>Active Tags</label>
       <textarea name='media[tag_list]' style='width: 100%; height: 300px; font-size: 1.2em'><%= @media.tag_list.sort.join(', ') %></textarea>
+      <input type='checkbox' name='media[featured]' <%= !@media.featured_at.nil? ? 'checked=true' : '' %> /><label>Featured</label>
     </div>
     <div style='clear: both;'></div>
   <% end %>
