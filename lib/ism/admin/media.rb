@@ -40,8 +40,14 @@ if defined?(ActiveAdmin)
       
       def update
         @media = Media.find(params[:id])
+        if params[:media][:featured]
+          @media.featured_at = Time.now
+        else
+          @media.featured_at = nil
+        end
         @media.tag_list = params[:media][:tag_list]
         @media.save
+        super
       end
     end
   end
