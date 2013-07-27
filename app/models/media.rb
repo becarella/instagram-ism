@@ -27,6 +27,8 @@ class Media < ActiveRecord::Base
   scope :tag_list_contains, lambda {|tags| Media.tagged_with(tags, :on => :tags) }
   search_methods :tag_list_contains
   
+  scope :featured, where("featured_at is not null")
+  
   attr_accessible :tag_list
   
   before_create :init_tag_list
