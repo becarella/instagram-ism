@@ -27,6 +27,7 @@ if defined?(ActiveAdmin)
       @media = Media.find(params[:id])
       if !params[:featured].blank?
         @media.featured_at = params[:featured] ? Time.now : nil
+        @media.save
       end
       respond_to do |format|
         format.html { redirect_to admin_medium_path(@media) }
