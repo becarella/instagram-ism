@@ -15,6 +15,7 @@
 #  caption         :text
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  featured_at     :datetime         not null
 #
 
 class InstagramMedia < Media
@@ -114,7 +115,7 @@ class InstagramMedia < Media
     end
   
   
-    def create_from_instagram_response data, options
+    def create_from_instagram_response data, options={}
       if options[:ban_filename]
         banned_list = banned_tags(options[:ban_filename])
         return if (data.tags & (banned_list)).length > 0

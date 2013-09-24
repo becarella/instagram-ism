@@ -15,6 +15,7 @@
 #  caption         :text
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  featured_at     :datetime
 #
 
 class Media < ActiveRecord::Base
@@ -29,7 +30,7 @@ class Media < ActiveRecord::Base
   
   scope :featured, where("featured_at is not null")
   
-  attr_accessible :tag_list
+  attr_accessible :tag_list, :featured_at
   
   before_create :init_tag_list
   

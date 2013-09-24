@@ -1,5 +1,5 @@
 if defined?(ActiveAdmin)
-  ActiveAdmin.register Ism::Media do
+  ActiveAdmin.register Media do
     filter :author_username_contains, :as => :string
     filter :author_name_contains, :as => :string
     filter :tag_list_contains, :as => :string
@@ -45,7 +45,8 @@ if defined?(ActiveAdmin)
         else
           @media.featured_at = nil
         end
-        @media.tag_list = params[:media][:tag_list]
+        params[:media].delete(:featured)
+        @media.tag_list = params[:media].delete(:tag_list)
         @media.save
         super
       end
