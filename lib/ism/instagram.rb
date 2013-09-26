@@ -85,7 +85,6 @@ module Ism
       
       
       def add_instagram data, options={}
-        puts data.inspect
         if options[:ban_filename]
           banned_list = banned_tags(options[:ban_filename])
           return if (data.tags & (banned_list)).length > 0
