@@ -20,11 +20,7 @@ Gem::Specification.new do |s|
   # s.add_dependency "jquery-rails"
 
   s.add_dependency 'rails', '~> 3.2.12'
-  s.add_dependency 'activeadmin'
-  s.add_dependency 'acts-as-taggable-on'
-  s.add_dependency 'acts_as_paranoid', '~>0.4.0'
-  s.add_dependency 'quiet_assets'
-  s.add_dependency 'delayed_job_active_record'
+  s.add_dependency 'instagram'
   
   s.add_development_dependency "sqlite3"
 end

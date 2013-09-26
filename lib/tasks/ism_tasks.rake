@@ -1,6 +1,6 @@
 namespace :import do
   
-  desc "Import instagram tags from file (direction: before (older) or after (newer)"
+  desc "Import Instagram tags from file (direction: before (older) or after (newer)"
   task :instagram_tags_from_file, [:filename, :direction, :pages, :ban_filename] => [:environment] do |t, args|
     if Delayed::Job.where(:queue => 'import_instagram_tag').count == 0
       tags = File.read(args[:filename]).split(/$/)
@@ -10,12 +10,12 @@ namespace :import do
     end
   end
   
-  desc "Import instagram by tag (direction: before (older) or after (newer)"
+  desc "Import Instagram by tag (direction: before (older) or after (newer)"
   task :instagram_tag, [:tag,:direction, :pages, :ban_filename] => [:environment] do |t, args|
     InstagramMedia.populate_from_tag(args[:tag], :direction => args[:direction], :pages => args[:pages], :ban_filename => args[:ban_filename])
   end
   
-  desc "Import instagram by username"
+  desc "Import Instagram by username"
   task :instagram_user, [:username] => [:environment] do |t, args|
     InstagramMedia.populate_from_user(args[:username])
   end
