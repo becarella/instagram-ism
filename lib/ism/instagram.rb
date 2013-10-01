@@ -84,6 +84,12 @@ module Ism
       # end
       
       
+      # get single instagram by instagram id
+      def find id
+        add_instagram(client.media_item(id))
+      end
+      
+      
       def add_instagram data, options={}
         if options[:ban_filename]
           banned_list = banned_tags(options[:ban_filename])
