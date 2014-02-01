@@ -14,6 +14,7 @@ module Ism
       #   direction: 
       #     before - Return media after/newer than the saved max_id
       #     after -  Return media before/older than the saved min_id
+      #   per_page -- number of instagrams to return per page, default = 50, max = 100
       #   pages -- number of pages to fetch from instagram, default = 10
       #   ban_filename -- name of file with banned tags
       def import_from_tag tag, options={}
@@ -31,7 +32,7 @@ module Ism
           start_value = MediaSetting.find_or_create_by_source_and_key('Instagram', "#{tag}_min_tag_id")
           args = start_value.nil? ? {} : {:max_id => start_value.value}
         end
-        args.merge!(:count => 100)
+        args.merge!(:count => (options[:per_page] || 50).to_i)
 
         import_max = nil
         import_min = nil
