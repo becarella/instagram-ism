@@ -17,6 +17,7 @@ module Ism
       #   per_page -- number of instagrams to return per page, default = 50, max = 100
       #   pages -- number of pages to fetch from instagram, default = 10
       #   ban_filename -- name of file with banned tags
+      #   access_token -- access token to auth against instagram
       def import_from_tag tag, options={}
         tag = tag.gsub(/[#\s]/, '')
 
@@ -41,7 +42,7 @@ module Ism
         max = MediaSetting.find_or_create_by_source_and_key('Instagram', "#{tag}_max_tag_id")
 
         (options[:pages] || 10).to_i.times do |count|
-          data = client.tag_recent_media(tag, args)
+          data = client(options[:auth_token]).tag_recent_media(tag, args)
 
           data.each do |d|
             add_instagram(d, options)
