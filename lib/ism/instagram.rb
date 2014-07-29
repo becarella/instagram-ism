@@ -20,7 +20,7 @@ module Ism
       #   access_token -- access token to auth against instagram
       def import_from_tag tag, options={}
         tag = tag.gsub(/[#\s]/, '')
-
+        return if tag.empty?
         # Get images newer than the most recent saved photo
         next_key = 'next_max_tag_id'
         options[:direction] ||= 'after'
