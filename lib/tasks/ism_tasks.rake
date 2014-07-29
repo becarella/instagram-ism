@@ -3,7 +3,7 @@ namespace :import do
   desc "Import Instagram tags from file (direction: before (older) or after (newer)"
   task :instagram_tags_from_file, [:filename, :direction, :pages, :ban_filename] => [:environment] do |t, args|
     if Delayed::Job.where(:queue => 'import_instagram_tag').count == 0
-      tags = File.read(args[:filename]).split(/$/)
+      tags = File.read(args[:filename]).split(/\n/)
       tags.each do |tag|
         Ism::Instagram.delay(:queue => 'import_instagram_tag').import_from_tag(tag, :direction => args[:direction], :pages => args[:pages], :ban_filename => args[:ban_filename])
       end
